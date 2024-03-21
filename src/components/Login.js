@@ -7,7 +7,7 @@ const Login = ({ showAlert }) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`https://shopperstop-server.onrender.com/api/auth/login`, {
+    const response = await fetch(`http://localhost:5000/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,14 +18,13 @@ const Login = ({ showAlert }) => {
       }),
     });
     const json = await response.json();
-    console.log(json);
     if (json.success) {
       // Set the auth token and redirect
       localStorage.setItem("token", json.authtoken);
-      showAlert("Logged in successfully", "success");
+      showAlert("Logged in successfully.", "success");
       navigate("/products");
     } else {
-      showAlert("Invalid credentials", "danger");
+      showAlert("Invalid credentials.", "danger");
     }
   };
 

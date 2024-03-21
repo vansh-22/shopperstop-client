@@ -12,19 +12,16 @@ const Cart = () => {
     if (localStorage.getItem("token")) {
       const getUserData = async () => {
         const authToken = localStorage.getItem("token");
-        console.log(authToken);
         try {
           const response = await axios.get(
-            "https://shopperstop-server.onrender.com/api/auth/getuser",
+            "http://localhost:5000/api/auth/getuser",
             {
               headers: {
                 "auth-token": authToken,
               },
             }
           );
-          console.log(response.data._id);
           setUserId(response.data._id);
-          console.log(userId);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -41,7 +38,7 @@ const Cart = () => {
       try {
         const authToken = localStorage.getItem("token");
         const response = await axios.get(
-          `https://shopperstop-server.onrender.com/api/products/cart?userId=${userId}`,
+          `http://localhost:5000/api/products/cart?userId=${userId}`,
           {
             headers: {
               "auth-token": authToken,
@@ -57,6 +54,10 @@ const Cart = () => {
       fetchData();
     }
   }, [userId]);
+
+  const handleCheckout = () => {
+    navigate("/")
+  }
 
   return (
     <div className="container" style={{ marginTop: "6rem" }}>
@@ -91,6 +92,7 @@ const Cart = () => {
             </Link>
           </div>
         )}
+      <button className="custom-btn text-center mb-4" onClick={handleCheckout}>Checkout</button>
       </div>
     </div>
   );

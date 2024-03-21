@@ -42,7 +42,7 @@ function Navbar({ showAlert, cartCount, name, setSearch }) {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token");
-    showAlert("Logged out successfully", "success");
+    showAlert("Logged out successfully.", "success");
     navigate("/login");
   };
 
@@ -95,7 +95,7 @@ function Navbar({ showAlert, cartCount, name, setSearch }) {
             </form>
           )}
           <div className="d-flex">
-            <button type="button" className="btn btn-light border">
+            <div className="btn btn-light border">
               <Link className="nav-link" to="/cart">
                 <img
                   src={Cart}
@@ -108,7 +108,7 @@ function Navbar({ showAlert, cartCount, name, setSearch }) {
                 />
                 <span>{cartCount}</span>
               </Link>
-            </button>
+            </div>
             <div className="d-flex align-items-center justify-content-center">
               {!localStorage.getItem("token") ? (
                 <div className="d-flex">

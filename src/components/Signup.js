@@ -19,17 +19,16 @@ const Signup = ({ showAlert }) => {
 
     // Check if phone number is provided and matches the pattern
     if (phone && !phone.match(phonePattern)) {
-      showAlert("Invalid phone number format", "danger");
+      showAlert("Invalid phone number format.", "danger");
       return;
     }
 
     // Ensure phone number is sent as null if not provided
     const phoneToSend = phone ? phone : null;
-    if (password !== cpassword) showAlert("Passwords do not match", "danger");
-    // else if(/[^\d]/.test(email.slice(0, email.lastIndexOf("@")))) showAlert("Email should contain at least one letter in the local part along with the numbers.", "danger");
+    if (password !== cpassword) showAlert("Passwords do not match.", "danger");
     else {
       const response = await fetch(
-        `https://shopperstop-server.onrender.com/api/auth/createuser`,
+        `http://localhost:5000/api/auth/createuser`,
         {
           method: "POST",
           headers: {
@@ -47,10 +46,13 @@ const Signup = ({ showAlert }) => {
       if (json.success) {
         // Set the auth token and redirect
         localStorage.setItem("token", json.authtoken);
-        showAlert("Signed up successfully", "success");
+        showAlert("Signed up successfully.", "success");
         navigate("/login");
       } else {
-        showAlert("Invalid credentials", "danger");
+        const errors = json.errors;
+        errors.forEach(element => {
+          showAlert(element.msg, "danger");
+        });
       }
     }
   };
@@ -83,7 +85,7 @@ const Signup = ({ showAlert }) => {
             Phone
           </label>
           <input
-            type="tel" // Use "tel" type for phone number input
+            type="tel"
             className="form-control"
             name="phone"
             id="phone"

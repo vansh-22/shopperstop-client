@@ -18,14 +18,13 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
         const authToken = localStorage.getItem("token");
         try {
           const response = await axios.get(
-            "https://shopperstop-server.onrender.com/api/auth/getuser",
+            "http://localhost:5000/api/auth/getuser",
             {
               headers: {
                 "auth-token": authToken,
               },
             }
           );
-          console.log(response.data._id);
           setUserId(response.data._id);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -42,14 +41,13 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
       try {
         const authToken = localStorage.getItem("token");
         const response = await axios.get(
-          `https://shopperstop-server.onrender.com/api/products/cart?userId=${userId}`,
+          `http://localhost:5000/api/products/cart?userId=${userId}`,
           {
             headers: {
               "auth-token": authToken,
             },
           }
         );
-        console.log(response.data);
         const newCartProducts = {};
         response.data.forEach((item) => {
           newCartProducts[item.productId] = item.quantity;
@@ -69,7 +67,7 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "https://shopperstop-server.onrender.com/api/products/getproducts"
+          "http://localhost:5000/api/products/getproducts"
         );
         setProducts(response.data);
       } catch (error) {
@@ -98,15 +96,15 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
   // Cart functionality - add, delete, increment, decrement
   const addToCart = async (productId) => {
     IncreaseCartCount();
-    console.log(`Product added to cart: ${productId}`);
+    // console.log(`Product added to cart: ${productId}`);
     setCartProducts((prevCartProducts) => ({
       ...prevCartProducts,
       [productId]: (prevCartProducts[productId] || 0) + 1,
     }));
     try {
       const authToken = localStorage.getItem("token");
-      const response = await axios.post(
-        "https://shopperstop-server.onrender.com/api/products/add-to-cart",
+      await axios.post(
+        "http://localhost:5000/api/products/add-to-cart",
         {
           userId,
           productId,
@@ -118,7 +116,6 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
           },
         }
       );
-      console.log(response.data.message);
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -134,7 +131,7 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
       try {
         const authToken = localStorage.getItem("token");
         const response = await axios.delete(
-          "https://shopperstop-server.onrender.com/api/products/delete-cart",
+          "http://localhost:5000/api/products/delete-cart",
           {
             data: { userId }, // Send userId in the request body
             headers: {
@@ -158,7 +155,7 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
     try {
       const authToken = localStorage.getItem("token");
       await axios.post(
-        "https://shopperstop-server.onrender.com/api/products/increment-quantity",
+        "http://localhost:5000/api/products/increment-quantity",
         {
           userId,
           productId,
@@ -187,7 +184,7 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
     try {
       const authToken = localStorage.getItem("token");
       await axios.post(
-        "https://shopperstop-server.onrender.com/api/products/decrement-quantity",
+        "http://localhost:5000/api/products/decrement-quantity",
         {
           userId,
           productId,
@@ -204,14 +201,14 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
   };
 
   return (
-    <div className="container" style={{ margin: "5rem auto 4rem auto" }}>
+    <div className="container products-container"> {/* Added products-container class */}
       <h2 className="my-4 text-center lato-regular">
         Explore Our Diverse Range of Products
       </h2>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
         {filteredProducts.map((product) => (
           <div key={product._id} className="col">
-            <div className="card h-100 text-center">
+            <div className="card h-100 text-center product-card"> 
               <img
                 src={product.image}
                 className="card-img-top"
@@ -222,7 +219,7 @@ const Products = ({ IncreaseCartCount, DecreaseCartCount, search }) => {
                 <h5 className="card-title">{product.category}</h5>
                 <p className="card-text">Price: ${product.price}</p>
                 {cartProducts[product._id] ? (
-                  <div className="d-flex align-items-center justify-content-center">
+                  <div className="d-flex align-items-center justify-content-center btn">
                     <button
                       className="btn btn-secondary me-2"
                       onClick={() => decrementQuantity(product._id)}

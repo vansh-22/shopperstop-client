@@ -8,7 +8,7 @@ import Footer from "./Footer";
 function Home({ showAlert }) {
   const carouselContainerStyle = {
     width: "100%",
-    height: "auto",
+    minHeight: "50vh",
     position: "relative",
     overflow: "hidden",
     marginTop: "13rem",
@@ -17,12 +17,14 @@ function Home({ showAlert }) {
 
   const carouselSlideStyle = {
     width: "100%",
-    height: "100%",
+    minHeight: "50vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     padding: "50px",
+    textAlign: "center",
+    fontSize: "20px",
   };
 
   const carouselButtonStyle = {
@@ -31,6 +33,10 @@ function Home({ showAlert }) {
     left: "50%",
     transform: "translateX(-50%)",
     zIndex: "2",
+    backgroundColor: "#fff", 
+    color: "#333", 
+    borderRadius: "5px", 
+    padding: "10px 20px", 
   };
 
   return (
@@ -66,7 +72,6 @@ function Home({ showAlert }) {
             style: carouselButtonStyle,
           }}
           infiniteLoop={true}
-          showArrows={false}
           showStatus={false}
           showThumbs={false}
         >

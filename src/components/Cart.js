@@ -92,7 +92,7 @@ const Cart = () => {
             </Link>
           </div>
         )}
-      <button className="custom-btn text-center mb-4" onClick={handleCheckout}>Checkout</button>
+      {/* <button className="custom-btn text-center mb-4" onClick={handleCheckout}>Checkout</button> */}
       </div>
     </div>
   );

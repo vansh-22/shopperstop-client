@@ -55,10 +55,6 @@ const Cart = () => {
     }
   }, [userId]);
 
-  const handleCheckout = () => {
-    navigate("/")
-  }
-
   return (
     <div className="container" style={{ marginTop: "6rem" }}>
       <div className="d-flex justify-content-between align-items-center">
